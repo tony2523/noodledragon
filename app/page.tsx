@@ -1,4 +1,13 @@
 import Image from "next/image";
+import { Fragment } from "react";
+
+const tickerWords = [
+  "PLAY", "SMILE", "REPEAT",
+  "PLAY", "SMILE", "REPEAT",
+  "PLAY", "SMILE", "REPEAT",
+  "PLAY", "SMILE", "REPEAT",
+  "PLAY", "SMILE", "REPEAT",
+];
 
 const flavourCards = [
   {
@@ -131,9 +140,17 @@ export default function Home() {
       </section>
 
       <div className="ticker" aria-hidden="true">
-        <div>
-          <span>TAP</span><b>✦</b><span>PLAY</span><b>✦</b><span>SMILE</span><b>✦</b>
-          <span>REPEAT</span><b>✦</b><span>TAP</span><b>✦</b><span>PLAY</span><b>✦</b>
+        <div className="ticker-track">
+          {[0, 1].map((group) => (
+            <div className="ticker-group" key={group}>
+              {tickerWords.map((word, index) => (
+                <Fragment key={`${group}-${index}`}>
+                  <span>{word}</span>
+                  <b>✦</b>
+                </Fragment>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
 

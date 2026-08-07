@@ -444,19 +444,37 @@ h1 em::after {
   transform: rotate(-1deg) scale(1.02);
 }
 
-.ticker div {
+.ticker-track {
   width: max-content;
   display: flex;
   align-items: center;
-  gap: 40px;
   font-family: "Arial Black", sans-serif;
   font-size: clamp(18px, 2.2vw, 34px);
   letter-spacing: 0.05em;
+  animation: ticker-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+.ticker-group {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-right: 40px;
 }
 
 .ticker b {
   color: var(--gold);
   font-size: 0.7em;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 .flavour {
@@ -1019,8 +1037,9 @@ footer small {
     font-size: 9px;
   }
 
-  .ticker div {
+  .ticker-group {
     gap: 22px;
+    padding-right: 22px;
   }
 
   .flavour {
@@ -1119,5 +1138,10 @@ footer small {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .ticker-track {
+    animation: none;
+    transform: translateX(-8%);
   }
 }
