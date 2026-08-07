@@ -1,8 +1,7 @@
-# vinext-starter
+# Noodle Dragon Studio
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+The website for Noodle Dragon Studio, an independent mobile game studio based in
+Aotearoa New Zealand.
 
 ## Prerequisites
 
@@ -91,8 +90,15 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 
 - `npm run dev`: start local development
 - `npm run build`: verify the vinext build output
+- `npm run build:pages`: create a static GitHub Pages export in `dist/client`
 - `npm test`: build the starter and verify its rendered loading skeleton
 - `npm run db:generate`: generate Drizzle migrations after schema changes
+
+## GitHub Pages
+
+Pushes to `main` are deployed by `.github/workflows/deploy-pages.yml`. The
+workflow preserves the custom domain in `CNAME` and also supports the repository
+subpath used by the default `github.io` URL.
 
 ## Learn More
 

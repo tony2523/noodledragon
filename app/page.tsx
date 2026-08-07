@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { Fragment } from "react";
 
+const basePath = import.meta.env.VITE_BASE_PATH ?? "";
+
+export const dynamic = "force-static";
+
 const tickerWords = [
   "PLAY", "SMILE", "REPEAT",
   "PLAY", "SMILE", "REPEAT",
@@ -60,7 +64,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Noodle Dragon Studio — home">
           <Image
-            src="/brand/logo-header-flat.png"
+            src={`${basePath}/brand/logo-header-flat.png`}
             alt=""
             width={768}
             height={400}
@@ -125,7 +129,7 @@ export default function Home() {
           <span className="spark spark-two">+</span>
           <span className="scribble">Play!</span>
           <Image
-            src="/brand/mascot.png"
+            src={`${basePath}/brand/mascot.png`}
             alt="A cheerful pink dragon eating a bowlful of noodles"
             width={1254}
             height={1254}
@@ -215,7 +219,7 @@ export default function Home() {
         <div className="about-art">
           <div className="about-frame">
             <Image
-              src="/brand/logo.png"
+              src={`${basePath}/brand/logo.png`}
               alt="Noodle Dragon Studio logo with pink dragon, game controller and pixel heart"
               width={1536}
               height={1024}
@@ -261,7 +265,7 @@ export default function Home() {
 
       <footer>
         <a className="footer-brand" href="#top">
-          <Image src="/brand/logo-square.png" alt="" width={48} height={48} />
+          <Image src={`${basePath}/brand/logo-square.png`} alt="" width={48} height={48} />
           <span>Noodle Dragon Studio</span>
         </a>
         <p>Independent mobile games, made in New Zealand.</p>
