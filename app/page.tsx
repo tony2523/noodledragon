@@ -51,7 +51,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Noodle Dragon Studio — home">
           <Image
-            src="/brand/logo-header.png"
+            src="/brand/logo-header-flat.png"
             alt=""
             width={768}
             height={400}

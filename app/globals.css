@@ -77,8 +77,6 @@ footer {
   width: clamp(205px, 18vw, 255px);
   height: auto;
   display: block;
-  mix-blend-mode: multiply;
-  filter: saturate(1.03) contrast(1.01);
 }
 
 .nav-links {
