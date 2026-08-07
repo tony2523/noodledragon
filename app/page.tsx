@@ -51,17 +51,13 @@ export default function Home() {
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Noodle Dragon Studio — home">
           <Image
-            src="/brand/logo-square.png"
+            src="/brand/logo-header.png"
             alt=""
-            width={56}
-            height={56}
-            className="brand-mark"
+            width={768}
+            height={400}
+            className="brand-logo"
             priority
           />
-          <span className="brand-type">
-            <strong>Noodle Dragon</strong>
-            <small>Game Design Studio</small>
-          </span>
         </a>
 
         <nav className="nav-links" aria-label="Main navigation">
