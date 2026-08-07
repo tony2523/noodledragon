@@ -241,8 +241,8 @@ export default function Home() {
           Collaborations, publishing conversations, friendly hellos—send them
           our way. The dragon is house-trained. Mostly.
         </p>
-        <a className="button button-contact" href="mailto:hello@noodledragon.studio">
-          hello@noodledragon.studio <span aria-hidden="true">↗</span>
+        <a className="button button-contact" href="mailto:tony@noodledragon.studio">
+          tony@noodledragon.studio <span aria-hidden="true">↗</span>
         </a>
       </section>
 
