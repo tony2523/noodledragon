@@ -88,6 +88,108 @@ footer {
   letter-spacing: 0.005em;
 }
 
+.mobile-nav {
+  display: none;
+  position: relative;
+}
+
+.mobile-nav summary {
+  min-height: 46px;
+  padding: 0 15px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  list-style: none;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+.mobile-nav summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu-icon {
+  width: 18px;
+  height: 14px;
+  position: relative;
+  display: block;
+}
+
+.menu-icon i {
+  width: 18px;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  border-radius: 99px;
+  background: var(--ink);
+  transition: transform 180ms ease, top 180ms ease;
+}
+
+.menu-icon i:first-child { top: 3px; }
+.menu-icon i:last-child { top: 9px; }
+
+.mobile-nav[open] .menu-icon i:first-child {
+  top: 6px;
+  transform: rotate(45deg);
+}
+
+.mobile-nav[open] .menu-icon i:last-child {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+.mobile-nav > nav {
+  width: min(330px, calc(100vw - 48px));
+  padding: 10px;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+
+.mobile-nav > nav a {
+  min-height: 52px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.mobile-nav > nav a > span {
+  color: var(--coral);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.mobile-nav > nav .mobile-contact {
+  min-height: 48px;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--coral);
+  color: var(--white);
+  justify-content: space-between;
+}
+
+.mobile-nav > nav .mobile-contact span {
+  color: var(--gold);
+  font-size: 18px;
+}
+
 .nav-links a,
 .footer-links a {
   position: relative;
@@ -888,6 +990,11 @@ footer small {
     display: none;
   }
 
+  .mobile-nav {
+    display: block;
+    margin-left: auto;
+  }
+
   .hero {
     grid-template-columns: 1fr;
     padding-top: 70px;
@@ -967,11 +1074,12 @@ footer small {
   }
 
   .site-header {
-    min-height: 102px;
+    min-height: 82px;
+    gap: 14px;
   }
 
   .brand-logo {
-    width: 178px;
+    width: clamp(150px, 46vw, 178px);
   }
 
   .button-small {
@@ -980,21 +1088,55 @@ footer small {
 
   .hero {
     min-height: auto;
-    padding: 58px 0 40px;
+    gap: 8px;
+    padding: 36px 0 26px;
+    text-align: left;
+  }
+
+  .hero-copy {
+    align-items: flex-start;
+  }
+
+  .hero .eyebrow {
+    margin-bottom: 18px;
   }
 
   h1 {
-    font-size: clamp(50px, 16vw, 76px);
+    margin-bottom: 22px;
+    font-size: clamp(46px, 15vw, 66px);
+    line-height: 0.92;
+  }
+
+  h1 em::after {
+    bottom: -9px;
+    height: 6px;
+  }
+
+  .hero-lede {
+    margin-bottom: 26px;
+    font-size: 16px;
+    line-height: 1.55;
   }
 
   .hero-actions {
-    flex-direction: column;
-    gap: 16px;
+    width: 100%;
+    display: grid;
+    gap: 14px;
+  }
+
+  .hero-actions .button {
+    width: 100%;
+  }
+
+  .hero-actions .text-link {
+    width: max-content;
+    margin-inline: auto;
   }
 
   .hero-stats {
     width: 100%;
-    margin-top: 42px;
+    margin-top: 34px;
+    padding-top: 20px;
   }
 
   .hero-stats div {
@@ -1012,11 +1154,15 @@ footer small {
   }
 
   .hero-stats span {
-    font-size: 8px;
+    font-size: 9px;
+    line-height: 1.25;
   }
 
   .hero-art {
-    min-height: 430px;
+    width: 100%;
+    height: clamp(335px, 96vw, 420px);
+    min-height: 0;
+    margin-top: 14px;
   }
 
   .sun-disc {
@@ -1035,6 +1181,10 @@ footer small {
 
   .art-sticker strong {
     font-size: 9px;
+  }
+
+  .scribble {
+    left: 1%;
   }
 
   .ticker-group {
@@ -1125,6 +1275,32 @@ footer small {
   footer > p,
   footer small {
     text-align: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .site-header,
+  .hero,
+  .section-shell,
+  footer {
+    width: calc(100% - 24px);
+  }
+
+  .mobile-nav summary {
+    padding-inline: 12px;
+  }
+
+  .mobile-nav > nav {
+    width: calc(100vw - 24px);
+    right: -2px;
+  }
+
+  .hero-stats div {
+    padding-right: 6px;
+  }
+
+  .hero-stats div + div {
+    padding-left: 6px;
   }
 }
 

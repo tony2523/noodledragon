@@ -79,6 +79,19 @@ export default function Home() {
           <a href="#about">About</a>
         </nav>
 
+        <details className="mobile-nav">
+          <summary>
+            <span>Menu</span>
+            <span className="menu-icon" aria-hidden="true"><i /><i /></span>
+          </summary>
+          <nav aria-label="Mobile navigation">
+            <a href="#flavour"><span>01</span> Our flavour</a>
+            <a href="#process"><span>02</span> How we work</a>
+            <a href="#about"><span>03</span> About</a>
+            <a className="mobile-contact" href="#contact">Say kia ora <span aria-hidden="true">↗</span></a>
+          </nav>
+        </details>
+
         <a className="button button-small button-dark" href="#contact">
           Say kia ora <span aria-hidden="true">↗</span>
         </a>
@@ -134,6 +147,7 @@ export default function Home() {
             width={1254}
             height={1254}
             className="mascot"
+            sizes="(max-width: 680px) 92vw, (max-width: 1050px) 70vw, 50vw"
             priority
           />
           <div className="art-sticker">
