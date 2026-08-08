@@ -19,6 +19,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -257,6 +258,7 @@ footer {
 }
 
 .hero-copy {
+  min-width: 0;
   position: relative;
   z-index: 3;
 }
@@ -296,6 +298,7 @@ h2 {
 }
 
 h1 {
+  width: 100%;
   max-width: 760px;
   margin-bottom: 28px;
   font-size: clamp(60px, 7vw, 108px);
@@ -392,6 +395,7 @@ h1 em::after {
 }
 
 .hero-art {
+  min-width: 0;
   min-height: 650px;
   position: relative;
   display: flex;
@@ -1099,11 +1103,19 @@ footer small {
 
   .hero .eyebrow {
     margin-bottom: 18px;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .hero .eyebrow span {
+    width: 18px;
+    flex: 0 0 auto;
   }
 
   h1 {
     margin-bottom: 22px;
-    font-size: clamp(46px, 15vw, 66px);
+    font-size: clamp(40px, 12.5vw, 54px);
     line-height: 0.92;
   }
 
@@ -1176,7 +1188,7 @@ footer small {
 
   .art-sticker {
     width: 96px;
-    right: 0;
+    right: 2%;
   }
 
   .art-sticker strong {
@@ -1291,8 +1303,8 @@ footer small {
   }
 
   .mobile-nav > nav {
-    width: calc(100vw - 24px);
-    right: -2px;
+    width: min(330px, calc(100vw - 24px));
+    right: 0;
   }
 
   .hero-stats div {
@@ -1301,6 +1313,17 @@ footer small {
 
   .hero-stats div + div {
     padding-left: 6px;
+  }
+}
+
+@media (min-width: 681px) and (max-width: 820px) {
+  .hero {
+    gap: 12px;
+    padding-top: 54px;
+  }
+
+  .hero-art {
+    min-height: 530px;
   }
 }
 
