@@ -312,10 +312,14 @@ h2 em {
   position: relative;
 }
 
+h1 em {
+  display: inline-block;
+}
+
 h1 em::after {
   position: absolute;
   right: 0;
-  bottom: -12px;
+  bottom: -16px;
   left: 4%;
   height: 8px;
   border-top: 4px solid var(--gold);
