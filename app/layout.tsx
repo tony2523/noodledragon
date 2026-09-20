@@ -6,9 +6,9 @@ const siteUrl = import.meta.env.VITE_SITE_URL ?? "https://noodledragon.studio";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Noodle Dragon Studio | Mobile Games Made in New Zealand",
+  title: "Noodle Dragon Studio | macOS Apps, Mobile Apps & Games",
   description:
-    "Noodle Dragon Studio is an independent New Zealand game studio creating colourful, characterful mobile games.",
+    "An independent New Zealand design and development studio making thoughtful macOS apps, mobile apps and mobile games. Serious craft. Playful spirit.",
   icons: {
     icon: `${basePath}/brand/logo-square.png`,
     shortcut: `${basePath}/brand/logo-square.png`,
@@ -16,21 +16,23 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Noodle Dragon Studio",
-    description: "Little games. Big personality. Made in Aotearoa New Zealand.",
+    description:
+      "Thoughtful macOS apps, mobile apps and mobile games. Serious craft. Playful spirit. Made in Aotearoa New Zealand.",
     type: "website",
     images: [
       {
         url: "og.png",
         width: 1536,
         height: 1024,
-        alt: "Noodle Dragon Studio — little games, big personality",
+        alt: "Noodle Dragon Studio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Noodle Dragon Studio",
-    description: "Little games. Big personality. Made in Aotearoa New Zealand.",
+    description:
+      "Thoughtful macOS apps, mobile apps and mobile games. Serious craft. Playful spirit.",
     images: ["og.png"],
   },
 };

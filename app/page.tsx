@@ -1,295 +1,390 @@
 import Image from "next/image";
-import { Fragment } from "react";
-
+import { SiteHeader } from "./site-header";
 const basePath = import.meta.env.VITE_BASE_PATH ?? "";
-
 export const dynamic = "force-static";
-
-const tickerWords = [
-  "PLAY", "SMILE", "REPEAT",
-  "PLAY", "SMILE", "REPEAT",
-  "PLAY", "SMILE", "REPEAT",
-  "PLAY", "SMILE", "REPEAT",
-  "PLAY", "SMILE", "REPEAT",
-];
-
-const flavourCards = [
+function Arrow({ diagonal = false }: { diagonal?: boolean }) {
+  return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>;
+}
+const capabilities = [
   {
     number: "01",
-    kicker: "Pick up & play",
-    title: "Easy to start. Hard to put down.",
-    copy: "We make mobile games that feel instantly familiar, then surprise you with one more delightful twist.",
-    className: "card-coral",
-    doodle: "✦",
+    id: "macos",
+    name: "macOS apps",
+    tag: "AT HOME ON YOUR MAC",
+    copy: "Thoughtful tools that make everyday tasks feel effortless. Purposeful interfaces, considered details, and a little joy in getting things done.",
+    skills: ["App design", "Desktop development", "Everyday utility"],
   },
   {
     number: "02",
-    kicker: "Full of flavour",
-    title: "Characters worth rooting for.",
-    copy: "Expressive worlds, playful humour and a little bit of weirdness give every game its own personality.",
-    className: "card-teal",
-    doodle: "●",
+    id: "mobile",
+    name: "Mobile apps",
+    tag: "SMALL SCREEN. BIG POSSIBILITIES.",
+    copy: "Useful experiences built around real life. Clear, intuitive and comfortable in your hand—from the first tap to the moments that become a habit.",
+    skills: ["UX & UI design", "Mobile development", "Interaction design"],
   },
   {
     number: "03",
-    kicker: "Made with care",
-    title: "Small details. Big smiles.",
-    copy: "From the first tap to the fiftieth level, we tune every moment to feel polished, friendly and rewarding.",
-    className: "card-gold",
-    doodle: "+",
+    id: "games",
+    name: "Mobile games",
+    tag: "JUST ONE MORE GO",
+    copy: "Little escapes with plenty of personality. Playful mechanics, expressive characters and those satisfying moments that bring you back for more.",
+    skills: ["Game design", "Prototyping", "Game development"],
   },
 ];
-
-const process = [
-  {
-    step: "01",
-    title: "Find the fun",
-    copy: "We start with a tiny, irresistible idea and prototype until the core loop feels great in your hands.",
-  },
-  {
-    step: "02",
-    title: "Add the noodles",
-    copy: "Characters, colour, sound and a dash of chaos turn a good mechanic into a world with real flavour.",
-  },
-  {
-    step: "03",
-    title: "Release the dragon",
-    copy: "We polish, playtest and launch—then keep listening to players so the game can grow.",
-  },
-];
-
+function CapabilityArt({ type }: { type: string }) {
+  return (
+    <div className={`capability-art art-${type}`} aria-hidden="true">
+      {type === "macos" ? (
+        <div className="drawn-window">
+          <div className="window-bar">
+            <i />
+            <i />
+            <i />
+            <span>Room for a good idea.</span>
+          </div>
+          <div className="window-body">
+            <div className="window-sidebar">
+              <b />
+              <b />
+              <b />
+            </div>
+            <div className="window-page">
+              <span className="asterisk">✳</span>
+              <i />
+              <i />
+              <i />
+              <div className="cursor-arrow">↖</div>
+            </div>
+          </div>
+        </div>
+      ) : type === "mobile" ? (
+        <>
+          <span className="mobile-orbit orbit-one" />
+          <span className="mobile-orbit orbit-two" />
+          <div className="drawn-phone">
+            <div className="phone-camera" />
+            <span className="phone-flower">✳</span>
+            <div className="phone-lines">
+              <i />
+              <i />
+            </div>
+            <div className="phone-action">
+              A little everyday delight <span>↗</span>
+            </div>
+          </div>
+          <span className="tap-spark">✦</span>
+        </>
+      ) : (
+        <>
+          <div className="game-grid" />
+          <span className="game-star">✦</span>
+          <div className="drawn-controller">
+            <span className="dpad">+</span>
+            <div className="game-buttons">
+              <i />
+              <i />
+              <i />
+              <i />
+            </div>
+          </div>
+          <span className="game-heart">♥</span>
+        </>
+      )}
+    </div>
+  );
+}
 export default function Home() {
   return (
-    <main>
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Noodle Dragon Studio — home">
-          <Image
-            src={`${basePath}/brand/logo-header-flat.png`}
-            alt=""
-            width={768}
-            height={400}
-            className="brand-logo"
-            priority
-          />
-        </a>
-
-        <nav className="nav-links" aria-label="Main navigation">
-          <a href="#flavour">Our flavour</a>
-          <a href="#process">How we work</a>
-          <a href="#about">About</a>
-        </nav>
-
-        <details className="mobile-nav">
-          <summary>
-            <span>Menu</span>
-            <span className="menu-icon" aria-hidden="true"><i /><i /></span>
-          </summary>
-          <nav aria-label="Mobile navigation">
-            <a href="#flavour"><span>01</span> Our flavour</a>
-            <a href="#process"><span>02</span> How we work</a>
-            <a href="#about"><span>03</span> About</a>
-            <a className="mobile-contact" href="#contact">Say kia ora <span aria-hidden="true">↗</span></a>
-          </nav>
-        </details>
-
-        <a className="button button-small button-dark" href="#contact">
-          Say kia ora <span aria-hidden="true">↗</span>
-        </a>
-      </header>
-
-      <section className="hero" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow"><span /> Independent game studio · Aotearoa</p>
-          <h1>
-            Little games.
-            <br />
-            <em>Big personality.</em>
-          </h1>
-          <p className="hero-lede">
-            We’re Noodle Dragon Studio, a New Zealand team creating colourful
-            mobile games packed with charm, character and just the right amount
-            of chaos.
-          </p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#flavour">
-              See what we’re cooking <span aria-hidden="true">↓</span>
-            </a>
-            <a className="text-link" href="#about">
-              Meet the studio <span aria-hidden="true">→</span>
-            </a>
-          </div>
-          <div className="hero-stats" aria-label="Studio highlights">
-            <div>
-              <strong>100%</strong>
-              <span>Made in NZ</span>
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <SiteHeader />
+      <main id="main">
+        <section className="hero shell" id="top" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <span className="status-dot" /> INDEPENDENT BY NATURE. PLAYFUL BY
+              DESIGN.
+            </p>
+            <h1 id="hero-title">
+              Serious craft.
+              <br />
+              <em>Playful spirit.</em>
+            </h1>
+            <p className="hero-lede">
+              We design and build macOS apps, mobile apps and mobile games—with
+              a little more personality. Thoughtful, useful, and never boring.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-ink" href="#flavour">
+                What we make <Arrow />
+              </a>
+              <a className="quiet-link" href="#about">
+                Meet the studio <Arrow diagonal />
+              </a>
             </div>
-            <div>
-              <strong>∞</strong>
-              <span>Playful ideas</span>
-            </div>
-            <div>
-              <strong>1</strong>
-              <span>Hungry dragon</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="hero-art" aria-label="Noodle Dragon Studio mascot">
-          <div className="sun-disc" />
-          <span className="pixel pixel-one" />
-          <span className="pixel pixel-two" />
-          <span className="spark spark-one">✦</span>
-          <span className="spark spark-two">+</span>
-          <span className="scribble">Play!</span>
-          <Image
-            src={`${basePath}/brand/mascot.png`}
-            alt="A cheerful pink dragon eating a bowlful of noodles"
-            width={1254}
-            height={1254}
-            className="mascot"
-            sizes="(max-width: 680px) 92vw, (max-width: 1050px) 70vw, 50vw"
-            priority
-          />
-          <div className="art-sticker">
-            <span aria-hidden="true">★</span>
-            <strong>Freshly<br />made fun</strong>
-          </div>
-        </div>
-      </section>
-
-      <div className="ticker" aria-hidden="true">
-        <div className="ticker-track">
-          {[0, 1].map((group) => (
-            <div className="ticker-group" key={group}>
-              {tickerWords.map((word, index) => (
-                <Fragment key={`${group}-${index}`}>
-                  <span>{word}</span>
-                  <b>✦</b>
-                </Fragment>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <section className="flavour section-shell" id="flavour">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow"><span /> Our flavour</p>
-            <h2>Games with a little more <em>bite.</em></h2>
-          </div>
-          <p>
-            We believe the best mobile games fit into your day—and stick in
-            your memory. That means simple controls, satisfying play and a
-            world you’ll want to visit again.
-          </p>
-        </div>
-
-        <div className="flavour-grid">
-          {flavourCards.map((card) => (
-            <article className={`flavour-card ${card.className}`} key={card.number}>
-              <div className="card-topline">
-                <span>{card.number}</span>
-                <span className="card-doodle" aria-hidden="true">{card.doodle}</span>
-              </div>
-              <p>{card.kicker}</p>
-              <h3>{card.title}</h3>
-              <div className="card-rule" />
-              <p className="card-copy">{card.copy}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="process" id="process">
-        <div className="process-inner section-shell">
-          <div className="process-intro">
-            <p className="eyebrow eyebrow-light"><span /> How we work</p>
-            <h2>From tiny idea to <em>tiny obsession.</em></h2>
-            <p>
-              Our process is fast, curious and player-first. We make the fun
-              visible early, then layer in everything that makes it feel like
-              Noodle Dragon.
+            <p className="hero-location">
+              <span aria-hidden="true">↘</span> Made in Aotearoa New Zealand.
+              For life everywhere.
             </p>
           </div>
-
-          <div className="process-list">
-            {process.map((item) => (
-              <article className="process-row" key={item.step}>
-                <span>{item.step}</span>
-                <div>
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
+          <div className="hero-art">
+            <div className="art-caption">
+              <span>THE STUDIO SPIRIT</span>
+              <span>01 / 01</span>
+            </div>
+            <span className="hero-spark" aria-hidden="true">
+              ✳
+            </span>
+            <Image
+              className="hero-dragon"
+              src={`${basePath}/brand/mascot.png`}
+              alt="Our pink dragon mascot, happily munching noodles"
+              width={1254}
+              height={1254}
+              sizes="(max-width: 760px) 90vw, 46vw"
+              priority
+            />
+            <span className="mascot-note">
+              A healthy appetite
+              <br />
+              for good ideas.
+            </span>
+            <div className="art-bottom">
+              <span className="art-cross" aria-hidden="true">
+                +
+              </span>
+              <span>
+                A little unexpected.
+                <br />A lot of character.
+              </span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </div>
+        </section>
+        <div className="platform-strip shell" aria-label="Our focus">
+          <span>THREE WAYS WE MAKE THINGS BETTER</span>
+          <div>
+            <a href="#macos">
+              macOS apps <Arrow diagonal />
+            </a>
+            <a href="#mobile">
+              Mobile apps <Arrow diagonal />
+            </a>
+            <a href="#games">
+              Mobile games <Arrow diagonal />
+            </a>
+          </div>
+        </div>
+        <section
+          className="capabilities shell section-space"
+          id="flavour"
+          aria-labelledby="capabilities-title"
+        >
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">01 / WHAT WE MAKE</p>
+              <h2 id="capabilities-title">
+                Different screens.
+                <br />
+                <em>Same spark.</em>
+              </h2>
+            </div>
+            <p>
+              From a useful little tool to a whole new world, we bring the same
+              care, curiosity and character to everything we make.
+            </p>
+          </div>
+          <div className="capability-grid">
+            {capabilities.map((item) => (
+              <article className="capability" id={item.id} key={item.id}>
+                <CapabilityArt type={item.id} />
+                <div className="capability-heading">
+                  <h3>{item.name}</h3>
+                  <span>{item.number}</span>
                 </div>
-                <b aria-hidden="true">↗</b>
+                <p className="mini-label">{item.tag}</p>
+                <p className="capability-copy">{item.copy}</p>
+                <ul className="skill-list">
+                  {item.skills.map((skill) => (
+                    <li key={skill}>{skill}</li>
+                  ))}
+                </ul>
               </article>
             ))}
           </div>
-        </div>
-        <div className="noodle-line" aria-hidden="true">〰 〰 〰 〰 〰 〰 〰 〰</div>
-      </section>
-
-      <section className="about section-shell" id="about">
-        <div className="about-art">
-          <div className="about-frame">
+        </section>
+        <section className="belief-section" aria-labelledby="belief-title">
+          <div className="shell belief-inner">
+            <p className="eyebrow">A LITTLE NOODLE DRAGON THINKING</p>
+            <h2 id="belief-title">
+              Useful can be joyful.
+              <br />
+              Playful can be <em>beautifully made.</em>
+            </h2>
+            <div className="belief-bottom">
+              <span className="belief-star" aria-hidden="true">
+                ✳
+              </span>
+              <p>
+                We don’t think you should have to choose. Good software respects
+                your time. Great games invite you to lose track of it. Both
+                deserve a thoughtful touch.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section
+          className="process shell section-space"
+          id="process"
+          aria-labelledby="process-title"
+        >
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">02 / HOW WE WORK</p>
+              <h2 id="process-title">
+                A good idea.
+                <br />
+                <em>Made really good.</em>
+              </h2>
+            </div>
+            <p>
+              No magic formula. Just curiosity, thoughtful decisions and a
+              willingness to keep making it better.
+            </p>
+          </div>
+          <div className="process-grid">
+            {[
+              {
+                title: "Find the heart",
+                copy: "Start with the thing that matters. The problem worth solving, the moment worth making, or the feeling that brings an idea to life.",
+                word: "EXPLORE",
+                symbol: "◎",
+              },
+              {
+                title: "Make it tangible",
+                copy: "Sketch it. Build it. Try it. We bring ideas into the real world early, so what feels good—and what doesn’t—can guide the design.",
+                word: "DESIGN & BUILD",
+                symbol: "↗",
+              },
+              {
+                title: "Sweat the small stuff",
+                copy: "Refine the flow, the feedback and the finishing touches. Test on real screens. Keep listening, learning and polishing.",
+                word: "REFINE",
+                symbol: "✳",
+              },
+            ].map((step, i) => (
+              <article className="process-step" key={step.title}>
+                <div className="step-top">
+                  <span>0{i + 1}</span>
+                  <span aria-hidden="true">{step.symbol}</span>
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.copy}</p>
+                <span className="mini-label">{step.word}</span>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section
+          className="about-section shell"
+          id="about"
+          aria-labelledby="about-title"
+        >
+          <div className="about-art">
+            <span className="eyebrow">SMALL STUDIO. BIG IMAGINATION.</span>
             <Image
-              src={`${basePath}/brand/logo.png`}
-              alt="Noodle Dragon Studio logo with pink dragon, game controller and pixel heart"
-              width={1536}
-              height={1024}
-              className="full-logo"
+              src={`${basePath}/brand/logo-square.png`}
+              alt="Noodle Dragon Studio illustrated dragon emblem"
+              width={1254}
+              height={1254}
+              sizes="(max-width: 760px) 80vw, 34vw"
             />
+            <div>
+              <span>AOTEAROA / NEW ZEALAND</span>
+              <span aria-hidden="true">↗</span>
+            </div>
           </div>
-          <span className="location-tag">36.8509° S · 174.7645° E</span>
-        </div>
-
-        <div className="about-copy">
-          <p className="eyebrow"><span /> Made down under</p>
-          <h2>Kia ora from <em>Aotearoa.</em></h2>
-          <p className="about-lede">
-            Noodle Dragon Studio is an independent mobile game design company
-            based in New Zealand.
-          </p>
-          <p>
-            We’re here to make bright, generous games for pockets everywhere—
-            the kind with loads of heart, a strong point of view and enough
-            noodle-fuelled mischief to keep things interesting.
-          </p>
-          <div className="values">
-            <span>Player-first</span>
-            <span>Joyfully original</span>
-            <span>Made with care</span>
+          <div className="about-copy">
+            <p className="eyebrow">03 / A BIT ABOUT US</p>
+            <h2 id="about-title">
+              Thoughtful humans.
+              <br />
+              <em>Hungry dragon.</em>
+            </h2>
+            <p>
+              We’re Noodle Dragon Studio, an independent design and development
+              studio based in Aotearoa New Zealand.
+            </p>
+            <p>
+              We create macOS apps, mobile apps and mobile games. Different
+              kinds of experiences, connected by one simple idea: the things we
+              use every day should feel good to use.
+            </p>
+            <p>
+              Our name is a little unusual. Our approach is straightforward.
+              Make something useful. Give it character. Care about the details.
+            </p>
+            <a className="quiet-link" href="mailto:tony@noodledragon.studio">
+              Say hello to Tony <Arrow diagonal />
+            </a>
+          </div>
+        </section>
+        <div className="ticker" aria-label="Make. Play. Smile. Repeat.">
+          <div className="ticker-track" aria-hidden="true">
+            {[0, 1].map((group) => (
+              <div className="ticker-group" key={group}>
+                {[0, 1, 2].map((i) => (
+                  <span key={i}>
+                    MAKE <b>✦</b> PLAY <b>✦</b> SMILE <b>✦</b> REPEAT <b>✦</b>
+                  </span>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
-      </section>
-
-      <section className="contact section-shell" id="contact">
-        <span className="contact-spark spark-left" aria-hidden="true">✦</span>
-        <span className="contact-spark spark-right" aria-hidden="true">✦</span>
-        <p className="eyebrow eyebrow-centred"><span /> Let’s make something fun</p>
-        <h2>Got a bright idea?<br /><em>We’re all ears.</em></h2>
-        <p>
-          Collaborations, publishing conversations, friendly hellos—send them
-          our way. The dragon is house-trained. Mostly.
-        </p>
-        <a className="button button-contact" href="mailto:tony@noodledragon.studio">
-          tony@noodledragon.studio <span aria-hidden="true">↗</span>
+        <section
+          className="contact shell section-space"
+          id="contact"
+          aria-labelledby="contact-title"
+        >
+          <div>
+            <p className="eyebrow">GOOD THINGS START WITH A CONVERSATION</p>
+            <h2 id="contact-title">
+              Got a little
+              <br />
+              <em>something in mind?</em>
+            </h2>
+            <p>
+              An idea, a question, or just a friendly hello.
+              <br />
+              We’d love to hear from you.
+            </p>
+            <a className="contact-email" href="mailto:tony@noodledragon.studio">
+              tony@noodledragon.studio <Arrow diagonal />
+            </a>
+          </div>
+          <a
+            className="hello-disc"
+            href="mailto:tony@noodledragon.studio"
+            aria-label="Say kia ora to Tony by email"
+          >
+            <span>Kia ora!</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </section>
+      </main>
+      <footer className="shell">
+        <a href="#top" className="footer-wordmark">
+          Noodle Dragon<span>STUDIO</span>
         </a>
-      </section>
-
-      <footer>
-        <a className="footer-brand" href="#top">
-          <Image src={`${basePath}/brand/logo-square.png`} alt="" width={48} height={48} />
-          <span>Noodle Dragon Studio</span>
-        </a>
-        <p>Independent mobile games, made in New Zealand.</p>
-        <div className="footer-links">
-          <a href="#flavour">Our flavour</a>
-          <a href="#process">Process</a>
-          <a href="#contact">Contact</a>
+        <p>Apps. Games. A little personality.</p>
+        <div>
+          <span>© {new Date().getFullYear()} Noodle Dragon Studio</span>
+          <a href="#top">Back to top ↑</a>
         </div>
-        <small>© {new Date().getFullYear()} Noodle Dragon Studio</small>
       </footer>
-    </main>
+    </>
   );
 }
