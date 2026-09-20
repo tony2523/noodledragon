@@ -127,10 +127,17 @@ ul {
 }
 .desktop-nav {
   display: flex;
+  align-items: center;
   gap: 36px;
   margin-left: auto;
   margin-right: 28px;
   font-size: 16px;
+}
+.desktop-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  line-height: 1;
 }
 .desktop-nav a,
 .quiet-link {
@@ -146,8 +153,10 @@ ul {
   gap: 35px;
   border: 1px solid var(--ink);
   border-radius: 100px;
+  min-height: 48px;
   padding: 12px 22px;
-  font-size: 15px;
+  line-height: 1;
+  font-size: 14px;
   transition:
     background 0.2s,
     color 0.2s;
@@ -251,11 +260,13 @@ ul {
 .hero-location > span {
   font-size: 18px;
 }
+/* Full-bleed artwork keeps the original paper texture intact. Captions sit
+   on a separate, consistent cream rail instead of a mismatched image matte. */
 .hero-art {
   position: relative;
-  background: #efe8da;
+  background: var(--cream);
+  border: 1px solid var(--line);
   border-radius: 160px 160px 20px 20px;
-  aspect-ratio: 1/1.12;
   isolation: isolate;
   overflow: hidden;
   min-width: 0;
@@ -275,21 +286,8 @@ ul {
   display: none;
 }
 .hero-dragon {
-  position: absolute;
-  width: 95%;
-  left: 3%;
-  top: 8%;
-  mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(
-    ellipse 82% 80% at 50% 50%,
-    #000 70%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 82% 80% at 50% 50%,
-    #000 70%,
-    transparent 100%
-  );
+  width: 100%;
+  height: auto;
 }
 .hero-spark {
   position: absolute;
@@ -314,14 +312,13 @@ ul {
   display: none;
 }
 .art-bottom {
-  position: absolute;
-  bottom: 23px;
-  left: 32px;
-  right: 32px;
+  position: relative;
+  padding: 18px 28px;
+  border-top: 1px solid var(--line);
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 11px;
+  gap: 12px;
+  font-size: 12px;
   line-height: 1.4;
 }
 .art-cross {
@@ -736,17 +733,20 @@ ul {
   padding-block: 20px 112px;
 }
 .about-art {
-  border-radius: 14px;
-  background: #eee8dc;
-  padding: 30px 34px 24px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  overflow: hidden;
 }
 .about-art .eyebrow {
+  display: block;
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--line);
   font-size: 10px;
 }
 .about-art img {
-  mix-blend-mode: multiply;
-  width: 85%;
-  margin: 18px auto;
+  width: 100%;
+  margin: 0;
 }
 .about-art > div {
   display: flex;
@@ -754,8 +754,8 @@ ul {
   justify-content: space-between;
   font-size: 10px;
   letter-spacing: 0.08em;
-  border-top: 1px solid #15262030;
-  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  padding: 18px 28px;
 }
 .about-art > div span:last-child {
   font-size: 22px;
@@ -898,7 +898,7 @@ footer a:hover {
     font-size: 99px;
   }
   .hero-art {
-    max-height: 580px;
+    max-width: 580px;
   }
   .hero {
     gap: 80px;
@@ -1101,16 +1101,10 @@ footer a:hover {
     line-height: 1.5;
   }
   .hero-art {
-    aspect-ratio: 1.13/1;
     border-radius: 110px 110px 16px 16px;
     max-width: 530px;
     width: 100%;
     margin: auto;
-  }
-  .hero-dragon {
-    width: 79%;
-    left: 11%;
-    top: 0;
   }
   .art-caption {
     top: 25px;
@@ -1129,9 +1123,7 @@ footer a:hover {
     font-size: 17px;
   }
   .art-bottom {
-    bottom: 17px;
-    left: 26px;
-    right: 26px;
+    padding: 16px 22px;
     font-size: 10px;
   }
   .platform-strip {
@@ -1268,14 +1260,9 @@ footer a:hover {
     padding-block: 10px 65px;
   }
   .about-art {
-    padding: 26px;
     max-width: 530px;
     width: 100%;
     margin: auto;
-  }
-  .about-art img {
-    width: 68%;
-    margin: 15px auto;
   }
   .about-copy h2 {
     font-size: clamp(38px, 7.4vw, 55px);
@@ -1343,14 +1330,6 @@ footer a:hover {
   }
   .button {
     padding-inline: 16px;
-  }
-  .hero-art {
-    aspect-ratio: 1/1;
-  }
-  .hero-dragon {
-    top: 5%;
-    width: 87%;
-    left: 6%;
   }
   .mascot-note {
     font-size: 14px;
