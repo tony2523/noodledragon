@@ -295,7 +295,7 @@ export default function Home() {
           <div className="about-art">
             <span className="eyebrow">SMALL STUDIO. BIG IMAGINATION.</span>
             <Image
-              src={`${basePath}/brand/logo-square.png`}
+              src={`${basePath}/brand/logo-square-apps-games.png`}
               alt="Noodle Dragon Studio illustrated dragon emblem"
               width={1254}
               height={1254}

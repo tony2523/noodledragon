@@ -43,10 +43,10 @@ export function SiteHeader() {
         onClick={() => setOpen(false)}
       >
         <Image
-          src={`${basePath}/brand/logo-header-flat.png`}
+          src={`${basePath}/brand/logo-horizontal-apps-games.png`}
           alt=""
-          width={768}
-          height={400}
+          width={2172}
+          height={724}
           className="brand-logo"
           priority
         />
