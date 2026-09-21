@@ -894,6 +894,136 @@ footer > div {
 footer a:hover {
   color: var(--red);
 }
+.privacy-header {
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  border-bottom: 1px solid var(--line);
+}
+.privacy-brand {
+  width: 280px;
+}
+.privacy-brand img {
+  width: 100%;
+}
+.privacy-hero {
+  padding-block: 90px 75px;
+  border-bottom: 1px solid var(--line);
+}
+.privacy-hero h1 {
+  font-size: clamp(58px, 7vw, 104px);
+  margin: 26px 0 40px;
+  max-width: 980px;
+}
+.privacy-hero h1 em {
+  color: var(--red);
+}
+.privacy-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+}
+.privacy-intro > p:first-child {
+  max-width: 670px;
+  font-size: 21px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.privacy-date {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.privacy-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
+  gap: 9%;
+  padding-block: 85px 120px;
+  align-items: start;
+}
+.privacy-summary {
+  position: sticky;
+  top: 30px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #eee8dc;
+}
+.privacy-summary .eyebrow {
+  margin-bottom: 15px;
+}
+.privacy-summary > p:last-child {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.privacy-policy {
+  max-width: 780px;
+}
+.privacy-policy > section {
+  padding-bottom: 42px;
+  margin-bottom: 42px;
+  border-bottom: 1px solid var(--line);
+}
+.privacy-policy h2 {
+  font-size: clamp(30px, 3vw, 42px);
+  margin-bottom: 20px;
+  letter-spacing: -0.045em;
+}
+.privacy-policy h3 {
+  font-size: 19px;
+  margin: 28px 0 9px;
+  letter-spacing: -0.025em;
+}
+.privacy-policy p,
+.privacy-policy li {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+.privacy-policy ul {
+  margin: 14px 0 20px;
+  padding-left: 1.25em;
+  list-style: disc;
+}
+.privacy-policy li + li {
+  margin-top: 7px;
+}
+.privacy-external-link,
+.privacy-contact > a {
+  display: inline-flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--ink);
+  font-size: 15px;
+}
+.privacy-contact {
+  padding: 42px !important;
+  margin-bottom: 0 !important;
+  border: 0 !important;
+  border-radius: 20px;
+  background: var(--ink);
+  color: var(--cream);
+}
+.privacy-contact .eyebrow,
+.privacy-contact h2,
+.privacy-contact a {
+  color: var(--cream);
+}
+.privacy-contact .eyebrow {
+  margin-bottom: 14px;
+}
+.privacy-contact p:not(.eyebrow) {
+  color: #c3d0c5;
+}
+.privacy-contact a {
+  border-color: var(--cream);
+}
 @media (min-width: 1600px) {
   .hero h1 {
     font-size: 99px;
@@ -911,6 +1041,12 @@ footer a:hover {
   }
   .site-header {
     height: 115px;
+  }
+  .privacy-header {
+    height: 115px;
+  }
+  .privacy-brand {
+    width: 220px;
   }
   .brand,
   .brand-logo {
@@ -1006,6 +1142,20 @@ footer a:hover {
   .site-header {
     height: 100px;
     gap: 15px;
+  }
+  .privacy-header {
+    height: 100px;
+    gap: 15px;
+  }
+  .privacy-brand {
+    width: clamp(160px, 52vw, 220px);
+  }
+  .privacy-header .header-contact {
+    display: flex;
+    min-height: 44px;
+    padding: 9px 14px;
+    gap: 9px;
+    font-size: 12px;
   }
   .brand,
   .brand-logo {
@@ -1314,6 +1464,41 @@ footer a:hover {
     border-top: 1px solid var(--line);
     padding-top: 20px;
     margin-top: 0;
+  }
+  .privacy-hero {
+    padding-block: 58px 48px;
+  }
+  .privacy-hero h1 {
+    font-size: clamp(48px, 13vw, 68px);
+    margin: 20px 0 28px;
+  }
+  .privacy-intro {
+    display: block;
+  }
+  .privacy-intro > p:first-child {
+    font-size: 18px;
+  }
+  .privacy-date {
+    margin-top: 22px;
+  }
+  .privacy-layout {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding-block: 55px 70px;
+  }
+  .privacy-summary {
+    position: static;
+    padding: 24px;
+  }
+  .privacy-policy > section {
+    padding-bottom: 34px;
+    margin-bottom: 34px;
+  }
+  .privacy-policy h2 {
+    font-size: 31px;
+  }
+  .privacy-contact {
+    padding: 30px 24px !important;
   }
   .footer-wordmark {
     font-size: 21px;

@@ -382,6 +382,7 @@ export default function Home() {
         <p>Apps. Games. A little personality.</p>
         <div>
           <span>© {new Date().getFullYear()} Noodle Dragon Studio</span>
+          <a href={`${basePath}/privacy.html`}>Privacy</a>
           <a href="#top">Back to top ↑</a>
         </div>
       </footer>
