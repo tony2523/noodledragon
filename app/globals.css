@@ -894,23 +894,12 @@ footer > div {
 footer a:hover {
   color: var(--red);
 }
-.privacy-header {
-  height: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  border-bottom: 1px solid var(--line);
-}
-.privacy-brand {
-  width: 280px;
-}
-.privacy-brand img {
-  width: 100%;
-}
 .privacy-hero {
   padding-block: 90px 75px;
   border-bottom: 1px solid var(--line);
+}
+#privacy-content:focus {
+  outline: none;
 }
 .privacy-hero h1 {
   font-size: clamp(58px, 7vw, 104px);
@@ -1042,12 +1031,6 @@ footer a:hover {
   .site-header {
     height: 115px;
   }
-  .privacy-header {
-    height: 115px;
-  }
-  .privacy-brand {
-    width: 220px;
-  }
   .brand,
   .brand-logo {
     width: 180px;
@@ -1142,20 +1125,6 @@ footer a:hover {
   .site-header {
     height: 100px;
     gap: 15px;
-  }
-  .privacy-header {
-    height: 100px;
-    gap: 15px;
-  }
-  .privacy-brand {
-    width: clamp(160px, 52vw, 220px);
-  }
-  .privacy-header .header-contact {
-    display: flex;
-    min-height: 44px;
-    padding: 9px 14px;
-    gap: 9px;
-    font-size: 12px;
   }
   .brand,
   .brand-logo {

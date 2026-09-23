@@ -1,7 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { PrivacyContent } from "./privacy-content";
 import { SiteHeader } from "./site-header";
 const basePath = import.meta.env.VITE_BASE_PATH ?? "";
-export const dynamic = "force-static";
+
+const homeTitle = "Noodle Dragon Studio | macOS Apps, Mobile Apps & Games";
+const privacyTitle = "Privacy | Noodle Dragon Studio";
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>;
 }
@@ -94,12 +100,44 @@ function CapabilityArt({ type }: { type: string }) {
   );
 }
 export default function Home() {
+  const [privacyView, setPrivacyView] = useState(false);
+
+  useEffect(() => {
+    const syncRoute = () => {
+      setPrivacyView(window.location.hash === "#privacy");
+    };
+
+    syncRoute();
+    window.addEventListener("hashchange", syncRoute);
+    return () => window.removeEventListener("hashchange", syncRoute);
+  }, []);
+
+  useEffect(() => {
+    document.title = privacyView ? privacyTitle : homeTitle;
+
+    const frame = window.requestAnimationFrame(() => {
+      if (privacyView) {
+        window.scrollTo(0, 0);
+        document.getElementById("privacy-content")?.focus({ preventScroll: true });
+        return;
+      }
+
+      const targetId = window.location.hash.slice(1);
+      document.getElementById(targetId || "top")?.scrollIntoView();
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [privacyView]);
+
   return (
     <>
-      <a className="skip-link" href="#main">
-        Skip to content
+      <a className="skip-link" href={privacyView ? "#privacy" : "#main"}>
+        {privacyView ? "Skip to privacy policy" : "Skip to content"}
       </a>
       <SiteHeader />
+      {privacyView ? (
+        <PrivacyContent />
+      ) : (
       <main id="main">
         <section className="hero shell" id="top" aria-labelledby="hero-title">
           <div className="hero-copy">
@@ -375,15 +413,18 @@ export default function Home() {
           </a>
         </section>
       </main>
+      )}
       <footer className="shell">
-        <a href="#top" className="footer-wordmark">
+        <a href={privacyView ? "#privacy" : "#top"} className="footer-wordmark">
           Noodle Dragon<span>STUDIO</span>
         </a>
         <p>Apps. Games. A little personality.</p>
         <div>
           <span>© {new Date().getFullYear()} Noodle Dragon Studio</span>
-          <a href={`${basePath}/privacy.html`}>Privacy</a>
-          <a href="#top">Back to top ↑</a>
+          <a href="#privacy" aria-current={privacyView ? "page" : undefined}>
+            Privacy
+          </a>
+          <a href={privacyView ? "#privacy" : "#top"}>Back to top ↑</a>
         </div>
       </footer>
     </>
