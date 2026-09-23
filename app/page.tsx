@@ -1,13 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from "react";
 import { PrivacyContent } from "./privacy-content";
 import { SiteHeader } from "./site-header";
 const basePath = import.meta.env.VITE_BASE_PATH ?? "";
+const homePath = `${basePath}/`;
+const privacyPath = `${basePath}/privacy.html`;
 
 const homeTitle = "Noodle Dragon Studio | macOS Apps, Mobile Apps & Games";
 const privacyTitle = "Privacy | Noodle Dragon Studio";
+const homeSectionHashes = new Set([
+  "#top",
+  "#flavour",
+  "#process",
+  "#about",
+  "#contact",
+  "#macos",
+  "#mobile",
+  "#games",
+]);
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>;
 }
@@ -99,18 +116,47 @@ function CapabilityArt({ type }: { type: string }) {
     </div>
   );
 }
-export default function Home() {
-  const [privacyView, setPrivacyView] = useState(false);
+export function SiteApp({ initialPrivacy = false }: { initialPrivacy?: boolean }) {
+  const [privacyView, setPrivacyView] = useState(initialPrivacy);
+  const pendingSection = useRef<string | null>(null);
 
   useEffect(() => {
     const syncRoute = () => {
-      setPrivacyView(window.location.hash === "#privacy");
+      const currentPath = window.location.pathname.replace(/\/+$/, "");
+      const cleanPrivacyPath = privacyPath.replace(/\/+$/, "");
+      setPrivacyView(currentPath === cleanPrivacyPath);
     };
 
     syncRoute();
-    window.addEventListener("hashchange", syncRoute);
-    return () => window.removeEventListener("hashchange", syncRoute);
+    window.addEventListener("popstate", syncRoute);
+    return () => window.removeEventListener("popstate", syncRoute);
   }, []);
+
+  useEffect(() => {
+    const handleHomeSectionLink = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) return;
+
+      const link = event.target.closest<HTMLAnchorElement>("a[href]");
+      const hash = link?.getAttribute("href");
+      if (!hash || !homeSectionHashes.has(hash)) return;
+
+      event.preventDefault();
+      const targetId = hash.slice(1);
+
+      if (privacyView) {
+        pendingSection.current = targetId;
+        window.history.pushState({}, "", homePath);
+        setPrivacyView(false);
+        return;
+      }
+
+      window.history.replaceState({}, "", homePath);
+      document.getElementById(targetId)?.scrollIntoView();
+    };
+
+    document.addEventListener("click", handleHomeSectionLink);
+    return () => document.removeEventListener("click", handleHomeSectionLink);
+  }, [privacyView]);
 
   useEffect(() => {
     document.title = privacyView ? privacyTitle : homeTitle;
@@ -122,12 +168,27 @@ export default function Home() {
         return;
       }
 
-      const targetId = window.location.hash.slice(1);
+      const targetId = pendingSection.current ?? window.location.hash.slice(1);
+      pendingSection.current = null;
       document.getElementById(targetId || "top")?.scrollIntoView();
+      if (window.location.hash) {
+        window.history.replaceState({}, "", homePath);
+      }
     });
 
     return () => window.cancelAnimationFrame(frame);
   }, [privacyView]);
+
+  const showPrivacy = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    window.history[privacyView ? "replaceState" : "pushState"](
+      {},
+      "",
+      privacyPath,
+    );
+    setPrivacyView(true);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <>
@@ -421,7 +482,11 @@ export default function Home() {
         <p>Apps. Games. A little personality.</p>
         <div>
           <span>© {new Date().getFullYear()} Noodle Dragon Studio</span>
-          <a href="#privacy" aria-current={privacyView ? "page" : undefined}>
+          <a
+            href={privacyPath}
+            aria-current={privacyView ? "page" : undefined}
+            onClick={showPrivacy}
+          >
             Privacy
           </a>
           <a href={privacyView ? "#privacy" : "#top"}>Back to top ↑</a>
@@ -429,4 +494,8 @@ export default function Home() {
       </footer>
     </>
   );
+}
+
+export default function Home() {
+  return <SiteApp />;
 }

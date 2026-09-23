@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
     ? {
         output: "export" as const,
         assetPrefix: basePath,
-        trailingSlash: true,
         images: { unoptimized: true },
       }
     : {}),
