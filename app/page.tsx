@@ -151,7 +151,11 @@ export function SiteApp({ initialPrivacy = false }: { initialPrivacy?: boolean }
       }
 
       window.history.replaceState({}, "", homePath);
-      document.getElementById(targetId)?.scrollIntoView();
+      if (targetId === "top") {
+        window.scrollTo(0, 0);
+      } else {
+        document.getElementById(targetId)?.scrollIntoView();
+      }
     };
 
     document.addEventListener("click", handleHomeSectionLink);
@@ -170,7 +174,11 @@ export function SiteApp({ initialPrivacy = false }: { initialPrivacy?: boolean }
 
       const targetId = pendingSection.current ?? window.location.hash.slice(1);
       pendingSection.current = null;
-      document.getElementById(targetId || "top")?.scrollIntoView();
+      if (!targetId || targetId === "top") {
+        window.scrollTo(0, 0);
+      } else {
+        document.getElementById(targetId)?.scrollIntoView();
+      }
       if (window.location.hash) {
         window.history.replaceState({}, "", homePath);
       }
