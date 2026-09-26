@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Macaroni, a Markdown reader for a folder</title>
+<meta name="description" content="Macaroni reads a folder of Markdown, not just a file. It watches the tree, lists what changed since you last read it, and shows you exactly what moved.">
+
+<!-- Open Graph, for when somebody pastes the link somewhere. The image is
+     the changed feed, because that is the thing nothing else has. -->
+<meta property="og:title" content="Macaroni, a Markdown reader for a folder">
+<meta property="og:description" content="It watches the tree, lists what changed since you last read it, and shows you exactly what moved.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="screenshots/store-1-changed-feed.png">
+
+<!--
+  The landing page. Phase 8 item 4, which section 13 of HANDOFF.md argues is
+  the item that decides the outcome: the competitor this app is priced beside
+  reached roughly $3,000 a month on organic search, from one well targeted
+  post.
+
+  Self contained on purpose. No framework, no fonts to fetch, no analytics and
+  no third party anything, because a page selling an app whose whole promise
+  is that it makes no network calls should not be loading five of them itself.
+  The type is the system stack, which is what the app uses, so on a Mac the
+  page is set in the same face as the product.
+
+  What is deliberately not here, and must not be added without being true:
+  a number of customers, a review, a testimonial, an award, a countdown, or a
+  price that has not been decided. `docs/pricing.md` is where the price gets
+  settled; the two places it appears below are marked.
+-->
+<style>
+:root {
+  --fg: #1d1d1f;
+  --fg-muted: rgba(29, 29, 31, 0.62);
+  --fg-faint: rgba(29, 29, 31, 0.38);
+  --bg: #ffffff;
+  --bg-soft: #f5f5f7;
+  --separator: rgba(0, 0, 0, 0.11);
+  --accent: #0071e3;
+  --surface: rgba(0, 0, 0, 0.045);
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #f5f5f7;
+    --fg-muted: rgba(245, 245, 247, 0.62);
+    --fg-faint: rgba(245, 245, 247, 0.38);
+    --bg: #161617;
+    --bg-soft: #1e1e20;
+    --separator: rgba(255, 255, 255, 0.13);
+    --accent: #0a84ff;
+    --surface: rgba(255, 255, 255, 0.06);
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ui);
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
+.measure { max-width: 660px; }
+
+h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+
+/* ---------- the top ---------- */
+
+header { padding: 26px 0; }
+.brand { display: flex; align-items: center; gap: 11px; font-weight: 600; font-size: 17px; }
+.mark {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: linear-gradient(135deg, #343d54, #171c29);
+  display: grid; place-items: center;
+  color: #fff; font-size: 13px; font-weight: 700; letter-spacing: -0.04em;
+}
+
+/* ---------- hero ---------- */
+
+.hero { padding: 40px 0 8px; }
+.hero h1 { font-size: clamp(38px, 6vw, 62px); margin: 0 0 18px; }
+.hero p { font-size: clamp(18px, 2.2vw, 21px); color: var(--fg-muted); margin: 0 0 26px; }
+.hero .measure { max-width: 700px; }
+
+.cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.button {
+  display: inline-block; padding: 11px 22px; border-radius: 980px;
+  background: var(--accent); color: #fff; font-weight: 600; font-size: 16px;
+}
+.button:hover { text-decoration: none; filter: brightness(1.06); }
+.button.quiet { background: var(--surface); color: var(--fg); }
+.price { color: var(--fg-faint); font-size: 15px; }
+
+figure { margin: 0; }
+.shot {
+  margin: 44px 0 0;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+.shot img { display: block; width: 100%; height: auto; }
+figcaption { color: var(--fg-faint); font-size: 14px; margin-top: 12px; }
+
+/* ---------- the three things ---------- */
+
+section { padding: 84px 0; }
+section + section { padding-top: 0; }
+.eyebrow {
+  font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--fg-faint); margin: 0 0 10px;
+}
+section h2 { font-size: clamp(28px, 3.6vw, 40px); margin: 0 0 14px; }
+section p { color: var(--fg-muted); margin: 0 0 16px; }
+section p strong { color: var(--fg); font-weight: 600; }
+
+.grid { display: grid; gap: 30px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 44px; }
+.card h3 { font-size: 18px; margin: 0 0 6px; letter-spacing: -0.01em; }
+.card p { font-size: 15.5px; margin: 0; }
+
+kbd {
+  font-family: var(--ui); font-size: 13px; color: var(--fg-muted);
+  background: var(--surface); border-radius: 5px; padding: 2px 7px;
+}
+
+/* ---------- the promise ---------- */
+
+.promise { background: var(--bg-soft); padding: 72px 0; }
+.promise h2 { font-size: clamp(24px, 3vw, 32px); }
+.promise ul { margin: 22px 0 0; padding: 0; list-style: none; }
+.promise li { padding: 12px 0; border-top: 1px solid var(--separator); color: var(--fg-muted); }
+.promise li strong { color: var(--fg); font-weight: 600; }
+
+/* ---------- foot ---------- */
+
+footer { padding: 44px 0 64px; color: var(--fg-faint); font-size: 14px; }
+footer .links { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 14px; }
+footer a { color: var(--fg-muted); }
+
+@media (max-width: 640px) {
+  section { padding: 56px 0; }
+  .promise { padding: 52px 0; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand"><span class="mark" aria-hidden="true">M↓</span> Macaroni</div>
+  </div>
+</header>
+
+<main>
+
+<div class="hero wrap">
+  <div class="measure">
+    <h1>A Markdown reader for a folder, not just a file.</h1>
+    <p>
+      Point Macaroni at a project and it watches the whole tree. It lists what
+      has been written since you last read it, and shows you exactly what
+      moved.
+    </p>
+    <div class="cta">
+      <!-- Link and price both wait on Phase 9 and docs/pricing.md. -->
+      <a class="button" href="#">Coming to the Mac App Store</a>
+      <span class="price">One time purchase. No account, no subscription.</span>
+    </div>
+  </div>
+
+  <figure class="shot">
+    <img src="screenshots/store-1-changed-feed.png"
+         alt="Macaroni's window: a sidebar listing three files under Changed, each with the folder it came from and an unread dot, and a rendered document beside it.">
+  </figure>
+</div>
+
+<section class="wrap">
+  <div class="measure">
+    <p class="eyebrow">What changed</p>
+    <h2>Find out what an agent wrote while you were away.</h2>
+    <p>
+      Every Markdown viewer renders a file. Macaroni watches the folder. Files
+      written since you last read them are listed at the top of the sidebar,
+      newest first, with a dot beside anything you have not seen. Reading one
+      clears it.
+    </p>
+    <p>
+      Open one and <strong>What Changed</strong>, <kbd>⇧⌘D</kbd>, shows you the
+      difference line by line: not against the last commit, against
+      <strong>the version you last read</strong>. The comparison holds still
+      while you are looking at it, so a document being rewritten underneath you
+      does not move the goalposts.
+    </p>
+  </div>
+  <figure class="shot">
+    <img src="screenshots/store-2-diff.png"
+         alt="A line by line diff of a document, with an outline column beside it naming the two sections the changes are in.">
+    <figcaption>
+      The outline beside a diff lists the sections the changes are in, rather
+      than whichever headings happen to fall inside one.
+    </figcaption>
+  </figure>
+</section>
+
+<section class="wrap">
+  <div class="measure">
+    <p class="eyebrow">Reading</p>
+    <h2>It renders what your documents actually contain.</h2>
+    <p>
+      Tables, task lists, footnotes, YAML front matter, GitHub alerts,
+      <code>&lt;details&gt;</code>, emoji, LaTeX through KaTeX, Mermaid
+      diagrams, and code with its language named and a button to copy it. A tag
+      it does not know keeps its text rather than vanishing, and says so.
+    </p>
+  </div>
+  <figure class="shot">
+    <img src="screenshots/store-3-rendering.png"
+         alt="A rendered document showing a table, a GitHub note, a Mermaid flowchart, a LaTeX formula and a task list.">
+  </figure>
+
+  <div class="grid">
+    <div class="card">
+      <h3>An outline that follows you</h3>
+      <p>
+        A column of headings beside the page. Pick one to jump to it; scroll
+        and the marker moves with you. It works over the Markdown source and
+        over a diff too.
+      </p>
+    </div>
+    <div class="card">
+      <h3>One search, two questions</h3>
+      <p>
+        <kbd>⌘F</kbd> finds in this document, with a counter.
+        <kbd>⇧⌘F</kbd> searches the whole project, names first, then the lines
+        inside each file.
+      </p>
+    </div>
+    <div class="card">
+      <h3>A measure set by counting</h3>
+      <p>
+        The column holds a line near 88 characters at the default size, which
+        was set by rendering real prose and counting rather than by taste. The
+        size and the width are yours to change.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Quick Look</h3>
+      <p>
+        Press space on a Markdown file in Finder and the same page appears,
+        from the same renderer, without opening the app.
+      </p>
+    </div>
+    <div class="card">
+      <h3>It comes back as you left it</h3>
+      <p>
+        The folder, the documents you had open, which one you were reading and
+        where you were in each of them.
+      </p>
+    </div>
+    <div class="card">
+      <h3>The system's own colours</h3>
+      <p>
+        Light and dark, following your accent colour, taken from macOS at
+        runtime rather than guessed at. It answers Reduce Motion, Reduce
+        Transparency and Increase Contrast.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="promise">
+  <div class="wrap measure">
+    <h2>What it will not do.</h2>
+    <ul>
+      <li><strong>It never writes to a Markdown file.</strong> Not a formatting pass, not a metadata line, not a saved position inside the document.</li>
+      <li><strong>It makes no network calls.</strong> There is no networking code in it, and the page it renders your document into is not allowed to make a request either.</li>
+      <li><strong>It collects nothing.</strong> No account, no sync, no analytics, no crash reporting of its own.</li>
+      <li><strong>It is sandboxed</strong>, and reads only the files and folders you hand it.</li>
+    </ul>
+  </div>
+</div>
+
+<section class="wrap">
+  <div class="measure">
+    <p class="eyebrow">Getting started</p>
+    <h2>Open a folder. That is the whole setup.</h2>
+    <p>
+      There is nothing to configure, no account to make and nothing to sign in
+      to. Drop a folder on the window, or press <kbd>⇧⌘O</kbd>, and the tree,
+      the feed and the diff are all there. If what you have is a path rather
+      than a folder, because a terminal printed it or an agent said where it
+      wrote, <kbd>⇧⌘V</kbd> opens a box already holding it.
+    </p>
+    <p>
+      Requires macOS 15 or later. Universal, for Apple silicon and Intel.
+    </p>
+  </div>
+  <figure class="shot">
+    <img src="screenshots/store-5-first-run.png"
+         alt="Macaroni's first run screen, offering four ways in: open a document, open a folder, drop one on the window, or paste a path.">
+  </figure>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="#">Support</a>
+      <a href="#">Privacy</a>
+      <a href="#">Release notes</a>
+    </div>
+    <div>Macaroni is made by Noodle Dragon Studio.</div>
+  </div>
+</footer>
+
+</body>
+</html>
